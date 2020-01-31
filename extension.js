@@ -32,7 +32,8 @@ async function getCode(codes) {
   return new Promise((resolve, _) => {
     const quickPick = window.createQuickPick()
     quickPick.placeholder = 'Select (or create) a code.'
-    quickPick.selectMany = false
+		quickPick.selectMany = false
+		quickPick.totalSteps = 5
     quickPick.items = codes.map(label => ({ label }))
     quickPick.onDidAccept(_ => {
       const selection = quickPick.activeItems[0]
@@ -40,9 +41,11 @@ async function getCode(codes) {
       quickPick.hide()
     })
     quickPick.onDidChangeValue(_ => {
-      const newItems = [quickPick.value, ...codes].map(label => ({ label }))
-      console.log('setting items', newItems)
-      quickPick.items = newItems
+			// add a new code to pick list as the first item 
+			if (! codes.includes(quickPick.value)) {
+				const newItems = [quickPick.value, ...codes].map(label => ({ label }))
+				quickPick.items = newItems
+			}
     })
     quickPick.onDidHide(() => quickPick.dispose())
     quickPick.show()
