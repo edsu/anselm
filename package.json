@@ -2,7 +2,7 @@
 	"name": "anselm",
 	"displayName": "anselm",
 	"description": "Perform simple qualitative coding of Markdown files.",
-	"version": "0.1.2",
+	"version": "0.2.0",
 	"publisher": "edsu",
 	"icon": "images/anselm.png",
 	"repository": "https://github.com/edsu/anselm",
