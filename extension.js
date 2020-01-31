@@ -29,7 +29,7 @@ async function code() {
 
 function getCurrentCodes(text) {
   const codes = []
-  const matches = [...text.matchAll(/<mark class="(.+)">/g)]
+  const matches = [...text.matchAll(/<mark class="(.+?)">/g)]
   if (matches.length > 0) {
     for (const match of matches) {
       for (code of match[1].split(/ +/)) {
@@ -40,7 +40,7 @@ function getCurrentCodes(text) {
   return codes.sort()
 }
 
-async function getCode(codes) {
+function getCode(codes) {
   return new Promise((resolve) => {
     const quickPick = window.createQuickPick()
     quickPick.placeholder = 'Select (or create) a code.'
