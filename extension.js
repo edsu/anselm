@@ -13,12 +13,12 @@ async function code() {
   if (editor) {
     let document = editor.document
 
-		const codes = getCurrentCodes(document.getText())
+    const codes = getCurrentCodes(document.getText())
     const code = await getCode(codes)
 
     let selection = editor.selection
     let text = document.getText(selection)
-		let newText = `<mark class="${code}">${text}</mark>`
+    let newText = `<mark class="${code}">${text}</mark>`
 
     editor.edit(editBuilder => {
       editBuilder.replace(selection, newText)
@@ -28,23 +28,23 @@ async function code() {
 }
 
 function getCurrentCodes(text) {
-	const codes = []
-	const matches = [...text.matchAll(/<mark class="(.+)">/g)]
-	if (matches.length > 0) {
-		for (const match of matches) {
-			for (code of match[1].split(/ +/)) {
-				codes.push(code)
-			}
-		}
-	}
-	return codes.sort()
+  const codes = []
+  const matches = [...text.matchAll(/<mark class="(.+)">/g)]
+  if (matches.length > 0) {
+    for (const match of matches) {
+      for (code of match[1].split(/ +/)) {
+        codes.push(code)
+      }
+    }
+  }
+  return codes.sort()
 }
 
 async function getCode(codes) {
   return new Promise((resolve) => {
     const quickPick = window.createQuickPick()
     quickPick.placeholder = 'Select (or create) a code.'
-		quickPick.selectMany = false
+    quickPick.selectMany = false
     quickPick.items = codes.map(label => ({ label }))
     quickPick.onDidAccept(() => {
       const selection = quickPick.activeItems[0]
@@ -52,11 +52,11 @@ async function getCode(codes) {
       quickPick.hide()
     })
     quickPick.onDidChangeValue(() => {
-			// add a new code to the pick list as the first item
-			if (! codes.includes(quickPick.value)) {
-				const newItems = [quickPick.value, ...codes].map(label => ({ label }))
-				quickPick.items = newItems
-			}
+      // add a new code to the pick list as the first item
+      if (! codes.includes(quickPick.value)) {
+        const newItems = [quickPick.value, ...codes].map(label => ({ label }))
+        quickPick.items = newItems
+      }
     })
     quickPick.onDidHide(() => quickPick.dispose())
     quickPick.show()
