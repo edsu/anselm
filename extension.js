@@ -13,14 +13,13 @@ async function code() {
   if (editor) {
     let document = editor.document
 
-    const allText = document.getText()
-    const codes = allText.match(/<mark class="(.+)">/g) || ['foo', 'bar']
-
+		const codes = getCurrentCodes(document.getText())
     const code = await getCode(codes)
 
     let selection = editor.selection
     let text = document.getText(selection)
-    let newText = `<mark class="${code}">${text}</mark>`
+		let newText = `<mark class="${code}">${text}</mark>`
+
     editor.edit(editBuilder => {
       editBuilder.replace(selection, newText)
     })
@@ -28,20 +27,32 @@ async function code() {
   return true
 }
 
+function getCurrentCodes(text) {
+	const codes = []
+	const matches = [...text.matchAll(/<mark class="(.+)">/g)]
+	if (matches.length > 0) {
+		for (const match of matches) {
+			for (code of match[1].split(/ +/)) {
+				codes.push(code)
+			}
+		}
+	}
+	return codes.sort()
+}
+
 async function getCode(codes) {
-  return new Promise((resolve, _) => {
+  return new Promise((resolve) => {
     const quickPick = window.createQuickPick()
     quickPick.placeholder = 'Select (or create) a code.'
 		quickPick.selectMany = false
-		quickPick.totalSteps = 5
     quickPick.items = codes.map(label => ({ label }))
-    quickPick.onDidAccept(_ => {
+    quickPick.onDidAccept(() => {
       const selection = quickPick.activeItems[0]
       resolve(selection.label)
       quickPick.hide()
     })
-    quickPick.onDidChangeValue(_ => {
-			// add a new code to pick list as the first item 
+    quickPick.onDidChangeValue(() => {
+			// add a new code to the pick list as the first item
 			if (! codes.includes(quickPick.value)) {
 				const newItems = [quickPick.value, ...codes].map(label => ({ label }))
 				quickPick.items = newItems
