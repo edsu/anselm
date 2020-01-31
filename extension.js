@@ -5,18 +5,20 @@ function activate(context) {
 	context.subscriptions.push(disposable)
 }
 
-// exports.activate = activate;
-
 function deactivate() {
 }
 
 async function code() {
 	let editor = window.activeTextEditor
 	if (editor) {
-		const code = await getCode()
 		let document = editor.document
-		let selection = editor.selection
 
+		const allText = document.getText()
+		const codes = allText.match(/<mark class="(.+)">/g) || ['foo', 'bar']
+
+		const code = await getCode(codes)
+
+		let selection = editor.selection
 		let text = document.getText(selection)
 		let newText = `<mark class="${code}">${text}</mark>`
 		editor.edit(editBuilder => {
@@ -26,11 +28,24 @@ async function code() {
 	return true
 }
 
-async function getCode() {
-	const result = await window.showInputBox({
-		placeHolder: 'Enter your code'
+async function getCode(codes) {
+	codes = ['foo', 'bar']
+	return new Promise((resolve, _) => {
+		const quickPick = window.createQuickPick()
+		quickPick.placeholder = 'Select (or create) a code.'
+		quickPick.selectMany = false
+		quickPick.items = codes.map(label => ({ label }))
+		quickPick.onDidAccept(_ => {
+			const selection = quickPick.activeItems[0]
+			resolve(selection.label)
+			quickPick.hide()
+		})
+		quickPick.onDidChangeValue(_ => {
+			quickPick.items = ['x', 'y'] //[quickPick.value, ...codes]
+		})
+		quickPick.onDidHide(() => quickPick.dispose())
+		quickPick.show()
 	})
-	return result
 }
 
 module.exports = {
