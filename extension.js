@@ -33,16 +33,16 @@ async function getCode(codes) {
     const quickPick = window.createQuickPick()
     quickPick.placeholder = 'Select (or create) a code.'
     quickPick.selectMany = false
-		quickPick.items = codes.map(label => ({ label }))
+    quickPick.items = codes.map(label => ({ label }))
     quickPick.onDidAccept(_ => {
       const selection = quickPick.activeItems[0]
       resolve(selection.label)
       quickPick.hide()
     })
     quickPick.onDidChangeValue(_ => {
-			const newItems = [quickPick.value, ...codes].map(label => ({ label }))
-			console.log('setting items', newItems)
-			quickPick.items = newItems
+      const newItems = [quickPick.value, ...codes].map(label => ({ label }))
+      console.log('setting items', newItems)
+      quickPick.items = newItems
     })
     quickPick.onDidHide(() => quickPick.dispose())
     quickPick.show()
