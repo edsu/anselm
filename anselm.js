@@ -1,4 +1,7 @@
-const { window, commands } = require('vscode')
+const fs = require('fs')
+const path = require('path')
+const walk = require('walk')
+const { window, commands, workspace } = require('vscode')
 
 function activate(context) {
   let disposable = commands.registerCommand('anselm.code', code)
@@ -9,17 +12,16 @@ function deactivate() {
 }
 
 async function code() {
-  let editor = window.activeTextEditor
-  if (editor) {
+  const codes = await getCurrentCodes()
+  const editor = window.activeTextEditor
 
-    // get all of existing codes
-    let document = editor.document
-    const codes = getCurrentCodes(document.getText())
+  if (editor) {
 
     // prompt the user for the code to apply
     const code = await getCode(codes)
 
     // update the document
+    let document = editor.document
     let selection = editor.selection
     let text = document.getText(selection)
     let newText = `<mark class="${normalize(code)}">${text}</mark>`
@@ -27,20 +29,52 @@ async function code() {
       editBuilder.replace(selection, newText)
     })
   }
+
   return true
 }
 
-function getCurrentCodes(text) {
+async function getCurrentCodes() {
+  let codes = []
+
+  // first look across the whole workspace for markdown files
+  if (workspace.workspaceFolders) {
+    for (const path of await getMarkdownFiles(workspace.workspaceFolders[0].uri.path)) {
+      const text = fs.readFileSync(path, 'utf8')
+      for (const code of extractCodes(text)) {
+        if (! codes.includes(code)) {
+          codes.push(code)
+        }
+      }
+    }
+  }
+
+  // also look in the current window
+  if (window.activeTextEditor) {
+    for (let code of extractCodes(window.activeTextEditor.document.getText())) {
+      if (! codes.includes(code)) {
+        codes.push(code)
+      }
+    }
+  }
+
+  // return the codes sorted alphabetically
+  return codes.sort((a, b) => a.localeCompare(b))
+}
+
+function extractCodes(text) {
   const codes = []
   const matches = [...text.matchAll(/<mark class="(.+?)">/g)]
   if (matches.length > 0) {
     for (const match of matches) {
       for (code of match[1].split(/ +/)) {
-        codes.push(denormalize(code))
+        code = denormalize(code)
+        if (! codes.includes(code)) {
+          codes.push(denormalize(code))
+        }
       }
     }
   }
-  return codes.sort()
+  return codes
 }
 
 function getCode(codes) {
@@ -76,9 +110,30 @@ function denormalize(s) {
   return newS
 }
 
+function getMarkdownFiles(dirPath) {
+  const files = []
+  return new Promise((resolve) => {
+    const walker = walk.walk(dirPath)
+
+    walker.on("file", (root, fileStats, next) => {
+      if (fileStats.name.match(/.(md|markdown)$/)) {
+        files.push(path.join(root, fileStats.name))
+      }
+      next()
+    })
+
+    walker.on("end", () => {
+      resolve(files)
+    })
+
+  })
+}
+
 module.exports = {
   activate,
   deactivate,
   normalize,
-  denormalize
+  denormalize,
+  getMarkdownFiles,
+  extractCodes
 }

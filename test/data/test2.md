@@ -1,0 +1,3 @@
+# Test
+
+Some <mark class="machinery">heavy machinery, bulldozers mostly were also there</mark>. To the right was a <mark class="buildings">cement structure with multiple large diagonal entrances</mark>. I missed the sign pointed to the right for Yard Waste and ended up on a road that led out of the facility. I thought about turning around but it was a one way road. <mark class="surveillance">There was another person in a truck at the exit who was watching people leave. I felt a bit like my movement through the facility was controlled.</mark>

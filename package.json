@@ -2,7 +2,7 @@
   "name": "anselm",
   "displayName": "Anselm",
   "description": "Qualitative coding of Markdown",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "publisher": "edsu",
   "icon": "images/anselm.png",
   "repository": "https://github.com/edsu/anselm",
@@ -44,5 +44,8 @@
     "mocha": "^6.2.2",
     "typescript": "^3.6.4",
     "vscode-test": "^1.2.2"
+  },
+  "dependencies": {
+    "walk": "^2.3.14"
   }
 }
