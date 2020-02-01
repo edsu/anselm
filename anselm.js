@@ -1,7 +1,7 @@
 const { window, commands } = require('vscode')
 
 function activate(context) {
-  let disposable = commands.registerCommand('extension.code', code)
+  let disposable = commands.registerCommand('anselm.code', code)
   context.subscriptions.push(disposable)
 }
 

@@ -2,7 +2,7 @@
   "name": "anselm",
   "displayName": "Anselm",
   "description": "Qualitative coding of Markdown",
-  "version": "0.2.7",
+  "version": "0.2.10",
   "publisher": "edsu",
   "icon": "images/anselm.png",
   "repository": "https://github.com/edsu/anselm",
@@ -13,21 +13,21 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.code"
+    "onCommand:anselm.code"
   ],
-  "main": "./extension.js",
+  "main": "./anselm.js",
   "contributes": {
     "commands": [
       {
-        "command": "extension.code",
+        "command": "anselm.code",
         "title": "Anselm: Code"
       }
     ],
     "keybindings": [
       {
-        "command": "extension.code",
-        "key": "alt+z alt+c",
-        "when": "editorTextFocus && !editorHasSelection"
+        "command": "anselm.code",
+        "key": "cmd+z cmd+c",
+        "when": "editorTextFocus && editorHasSelection"
       }
     ]
   },
