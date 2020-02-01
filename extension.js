@@ -11,15 +11,18 @@ function deactivate() {
 async function code() {
   let editor = window.activeTextEditor
   if (editor) {
-    let document = editor.document
 
+    // get all of existing codes
+    let document = editor.document
     const codes = getCurrentCodes(document.getText())
+
+    // prompt the user for the code to apply
     const code = await getCode(codes)
 
+    // update the document
     let selection = editor.selection
     let text = document.getText(selection)
-    let newText = `<mark class="${code}">${text}</mark>`
-
+    let newText = `<mark class="${normalize(code)}">${text}</mark>`
     editor.edit(editBuilder => {
       editBuilder.replace(selection, newText)
     })
@@ -33,7 +36,7 @@ function getCurrentCodes(text) {
   if (matches.length > 0) {
     for (const match of matches) {
       for (code of match[1].split(/ +/)) {
-        codes.push(code)
+        codes.push(denormalize(code))
       }
     }
   }
@@ -63,7 +66,19 @@ function getCode(codes) {
   })
 }
 
+function normalize(s) {
+  let newS = s.replace(/ /g, '-')
+  return newS
+}
+
+function denormalize(s) {
+  let newS = s.replace(/-/g, ' ')
+  return newS
+}
+
 module.exports = {
   activate,
-  deactivate
+  deactivate,
+  normalize,
+  denormalize
 }

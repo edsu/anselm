@@ -1,15 +1,18 @@
-const assert = require('assert');
-
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
-const vscode = require('vscode');
-// const myExtension = require('../extension');
+const assert = require('assert')
+const vscode = require('vscode')
+const anselm = require('../../extension')
 
 suite('Extension Test Suite', () => {
-	vscode.window.showInformationMessage('Start all tests.');
+	vscode.window.showInformationMessage('Start all tests.')
 
-	test('Sample test', () => {
-		assert.equal(-1, [1, 2, 3].indexOf(5));
-		assert.equal(-1, [1, 2, 3].indexOf(0));
-	});
-});
+	test('normalize', () => {
+		assert.equal(anselm.normalize('Actor'), 'Actor')
+		assert.equal(anselm.normalize("Right of passage"), "Right-of-passage")
+	})
+
+	test('denormalize', () => {
+		assert.equal(anselm.denormalize('Actor'), 'Actor')
+		assert.equal(anselm.denormalize('Right-of-passage'), 'Right of passage')
+	})
+
+})

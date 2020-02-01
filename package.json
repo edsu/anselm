@@ -1,41 +1,48 @@
 {
-	"name": "anselm",
-	"displayName": "anselm",
-	"description": "Perform simple qualitative coding of Markdown files.",
-	"version": "0.2.2",
-	"publisher": "edsu",
-	"icon": "images/anselm.png",
-	"repository": "https://github.com/edsu/anselm",
-	"engines": {
-		"vscode": "^1.41.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:extension.code"
-	],
-	"main": "./extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "extension.code",
-				"title": "Anselm: Code"
-			}
-		]
-	},
-	"scripts": {
-		"test": "node ./test/runTest.js"
-	},
-	"devDependencies": {
-		"@types/glob": "^7.1.1",
-		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.11.7",
-		"@types/vscode": "^1.41.0",
-		"eslint": "^6.6.0",
-		"glob": "^7.1.5",
-		"mocha": "^6.2.2",
-		"typescript": "^3.6.4",
-		"vscode-test": "^1.2.2"
-	}
+  "name": "anselm",
+  "displayName": "anselm",
+  "description": "Perform simple qualitative coding of Markdown files.",
+  "version": "0.2.3",
+  "publisher": "edsu",
+  "icon": "images/anselm.png",
+  "repository": "https://github.com/edsu/anselm",
+  "engines": {
+    "vscode": "^1.41.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.code"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.code",
+        "title": "Anselm: Code"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.code",
+        "key": "cmd+c cmd+c",
+        "when": "editorTextFocus && !editorHasSelection"
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node ./test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.41.0",
+    "eslint": "^6.6.0",
+    "glob": "^7.1.5",
+    "mocha": "^6.2.2",
+    "typescript": "^3.6.4",
+    "vscode-test": "^1.2.2"
+  }
 }

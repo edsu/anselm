@@ -27,11 +27,3 @@ Anselm will let you quickly (faster if you assign a keyboard shortcut) assign si
 
 * Look in all workspace documents for codes.
 * Create a code view of codes and their associated text snippets.
-
-### 0.2.1
-
-Added autocomplete for codes in the current document.
-
-### 0.0.1
-
-Initial release.
