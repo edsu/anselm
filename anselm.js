@@ -4,11 +4,13 @@ const walk = require('walk')
 const { window, commands, workspace } = require('vscode')
 
 function activate(context) {
+  console.log('Anselm activated.')
   let disposable = commands.registerCommand('anselm.code', code)
   context.subscriptions.push(disposable)
 }
 
 function deactivate() {
+  console.log('Anselm deactivated.')
 }
 
 async function code() {

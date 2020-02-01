@@ -23,7 +23,10 @@ Anselm will let you quickly assign simple codes to pieces of the text:
 > at the exit who was watching people leave. I felt a bit like my movement through the
 > facility was controlled.&lt;/mark&gt;**
 
+When coding, Anselm will present you with a list of already used codes in your workspace.
+
 ## TODO
 
-* Look in all workspace documents for codes.
-* Create a code view of codes and their associated text snippets.
+* Provide a view of codes and their associated text snippets.
+* Provide a way of renaming existing codes.
+
