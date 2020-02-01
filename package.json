@@ -1,8 +1,8 @@
 {
   "name": "anselm",
-  "displayName": "anselm",
-  "description": "Perform simple qualitative coding of Markdown files.",
-  "version": "0.2.3",
+  "displayName": "Anselm",
+  "description": "Qualitative coding of Markdown",
+  "version": "0.2.7",
   "publisher": "edsu",
   "icon": "images/anselm.png",
   "repository": "https://github.com/edsu/anselm",
@@ -26,7 +26,7 @@
     "keybindings": [
       {
         "command": "extension.code",
-        "key": "cmd+c cmd+c",
+        "key": "alt+z alt+c",
         "when": "editorTextFocus && !editorHasSelection"
       }
     ]
