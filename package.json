@@ -2,7 +2,7 @@
   "name": "anselm",
   "displayName": "Anselm",
   "description": "Qualitative coding of Markdown",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "publisher": "edsu",
   "icon": "images/anselm.png",
   "repository": "https://github.com/edsu/anselm",
@@ -26,7 +26,7 @@
     "keybindings": [
       {
         "command": "anselm.code",
-        "key": "cmd+z cmd+c",
+        "key": "cmd+u cmd+c",
         "when": "editorTextFocus && editorHasSelection"
       }
     ]

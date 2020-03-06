@@ -24,12 +24,23 @@ async function code() {
 
     // update the document
     let document = editor.document
-    let selection = editor.selection
-    let text = document.getText(selection)
-    let newText = `<mark class="${normalize(code)}">${text}</mark>`
-    editor.edit(editBuilder => {
-      editBuilder.replace(selection, newText)
-    })
+
+    // If no text is highlighted just insert the Code otherwise wrap the 
+    // text in the <mark> tag with the Code set.
+    const selection = editor.selection
+
+    if (selection.isEmpty) {
+      const position = selection.active
+      editor.edit(edit => {
+        edit.insert(position, normalize(code))
+      })
+    } else {
+      const text = document.getText(selection)
+      const newText = `<mark class="${normalize(code)}">${text}</mark>`
+      editor.edit(edit => {
+        edit.replace(selection, newText)
+      })
+    }
   }
 
   return true
