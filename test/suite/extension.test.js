@@ -1,7 +1,7 @@
 const path = require('path')
 const assert = require('assert')
 const vscode = require('vscode')
-const anselm = require('../../anselm')
+const anselm = require('../../src/anselm')
 
 suite('Extension Test Suite', () => {
 	vscode.window.showInformationMessage('Start all tests.')

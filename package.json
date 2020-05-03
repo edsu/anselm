@@ -15,7 +15,7 @@
   "activationEvents": [
     "onCommand:anselm.code"
   ],
-  "main": "./anselm.js",
+  "main": "./src/anselm.js",
   "contributes": {
     "commands": [
       {
@@ -29,7 +29,15 @@
         "key": "cmd+z cmd+c",
         "when": "editorTextFocus && editorHasSelection"
       }
-    ]
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "anselmCodes",
+          "name": "Codes"
+        }
+      ]
+    }
   },
   "scripts": {
     "test": "node ./test/runTest.js"

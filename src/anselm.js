@@ -2,11 +2,13 @@ const fs = require('fs')
 const path = require('path')
 const walk = require('walk')
 const { window, commands, workspace } = require('vscode')
+const CodeTreeProvider = require('./codetree')
 
 function activate(context) {
   console.log('Anselm activated.')
   let disposable = commands.registerCommand('anselm.code', code)
   context.subscriptions.push(disposable)
+  window.registerTreeDataProvider('anselmCodes', new CodeTreeProvider())
 }
 
 function deactivate() {
