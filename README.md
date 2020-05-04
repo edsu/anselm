@@ -25,8 +25,13 @@ Anselm will let you quickly assign simple codes to pieces of the text:
 
 When coding, Anselm will present you with a list of already used codes in your workspace.
 
+## Codes View
+
+You should notice to the left of your VSCode window that there is a pane called "Codes". This tree view shows you the codes that you are using in your workspace with the number of times the code has been used. If you expand the code you will see a list of files in which the code appears followed by the number of times the code is used in that file. Clicking on the file name will open it in VSCode.
+
+<img src="https://raw.githubusercontent.com/edsu/anselm/master/images/codes.png">
+
 ## TODO
 
-* Provide a view of codes and their associated text snippets.
-* Provide a way of renaming existing codes.
-
+* Provide a way to bulk rename codes.
+* Provide a code matrix view, for seeing which codes co-occur?

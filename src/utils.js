@@ -6,8 +6,8 @@ const walk = require('walk')
  * Returns a list of the current codes in the workspace.
  * @param {*} workspace 
  */
-async function getCurrentCodes(workspace) {
-  const codeMap = await getCodeMap(workspace)
+async function getCurrentCodes(workspace, window) {
+  const codeMap = await getCodeMap(workspace, window)
   const codes = Array.from(codeMap.keys())
   return codes.sort((a, b) => a.localeCompare(b))
 }
@@ -17,17 +17,30 @@ async function getCurrentCodes(workspace) {
  * and the number of times the code appears in that file.
  * @param {*} workspace 
  */
-async function getCodeMap(workspace) {
+async function getCodeMap(workspace, window) {
   const codes = new Map()
+
+  const activeFile = window.activeTextEditor ? window.activeTextEditor.document.uri.path
+ : null
 
   if (workspace.workspaceFolders) {
     for (const path of await getMarkdownFiles(workspace.rootPath)) {
       const text = fs.readFileSync(path, 'utf8')
       for (const code of extractCodes(text)) {
         const files = codes.get(code) || new Map()
-        files.set(path, (files.get(path) || 0) + 1)
-        codes.set(code, files)
+        if (path !== activeFile) {
+          files.set(path, (files.get(path) || 0) + 1)
+          codes.set(code, files)
+        }
       }
+    }
+  }
+
+  if (activeFile) {
+    for (let code of extractCodes(window.activeTextEditor.document.getText())) {
+      const files = codes.get(code) || new Map()
+      files.set(activeFile, (files.get(activeFile) || 0) + 1)
+      codes.set(code, files)
     }
   }
 
@@ -47,6 +60,7 @@ function extractCodes(text) {
       }
     }
   }
+  
   return codes
 }
 

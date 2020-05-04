@@ -1,12 +1,21 @@
 const vscode = require('vscode')
 const utils = require('./utils')
 
+const _onDidChangeTreeData = new vscode.EventEmitter()
+
 class CodeTreeProvider {
 
-  constructor(window, workspace) {
-    this.window = window
+  constructor(workspace, window) {
     this.workspace = workspace
+    this.window = window
     this.codeMap = null
+    this.onDidChangeTreeData = _onDidChangeTreeData.event
+  }
+
+  refresh() {
+    this.codeMap = null
+    console.log('refreshing!')
+    _onDidChangeTreeData.fire()
   }
 
   getTreeItem(element) {
@@ -44,7 +53,7 @@ class CodeTreeProvider {
 
   async getCodeMap() {
     if (this.codeMap === null) {
-      this.codeMap = await utils.getCodeMap(this.workspace)
+      this.codeMap = await utils.getCodeMap(this.workspace, this.window)
     }
     return this.codeMap
   }
@@ -74,6 +83,7 @@ class Code extends vscode.TreeItem {
 class CodedFile extends vscode.TreeItem {
 
   constructor(code, workspace, path, count) {
+    if (! path.replace) console.log(code, count)
     const relPath = path.replace(workspace.rootPath + '/', '')
     const label = `${relPath} (${count})`
     super(label, vscode.TreeItemCollapsibleState.None)
