@@ -97,6 +97,7 @@ module.exports = {
   getCodeMap,
   getCurrentCodes,
   getMarkdownFiles,
+  extractCodes,
   normalize,
   denormalize
 }
