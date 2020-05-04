@@ -13,7 +13,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:anselm.code"
+    "onCommand:anselm.code",
+    "onView:anselm.codeTree"
   ],
   "main": "./src/anselm.js",
   "contributes": {
@@ -33,7 +34,7 @@
     "views": {
       "explorer": [
         {
-          "id": "anselmCodes",
+          "id": "anselm.codeTree",
           "name": "Codes"
         }
       ]

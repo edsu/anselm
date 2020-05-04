@@ -1,40 +1,52 @@
 const vscode = require('vscode')
+const utils = require('./utils')
 
 class CodeTreeProvider {
 
-  constructor() {
+  constructor(window, workspace) {
+    this.window = window
+    this.workspace = workspace
+    this.codeMap = null
   }
-  
+
   getTreeItem(element) {
     return element
   }
 
   getChildren(element) {
     if (element) {
-      return Promise.resolve(
-        this.getFiles(element.label)
-      )
+      return this.getFiles(element.label)
     } else {
-      return Promise.resolve(
-        this.getCodes()
-      )
+      return this.getCodes()
     }
   }
 
-  getCodes() {
-    return [
-      new Code('Power', vscode.TreeItemCollapsibleState.Collapsed),
-      new Code('Material', vscode.TreeItemCollapsibleState.Collapsed),
-      new Code('Agency', vscode.TreeItemCollapsibleState.Collapsed)
-    ]
+  async getCodes() {
+    const codes = []
+    const codeMap = await this.getCodeMap()
+    for (const [code, files] of codeMap) {
+      const totalCount = Array.from(files.values()).reduce((sum, n) => sum + n)
+      codes.push(new Code(code, totalCount, vscode.TreeItemCollapsibleState.Collapsed))
+    }
+    return codes.sort((a, b) => a.code.localeCompare(b.code))
   }
 
-  getFiles(code) {
-    return [
-      new CodedFile('foo.md'),
-      new CodedFile('bar.md'),
-      new CodedFile('baz.md')
-    ]
+  async getFiles(label) {
+    // remove file count portion of label so we can look up the code
+    const code = label.replace(/ \(\d+\)$/, '')
+    const files = []
+    const codeMap = await this.getCodeMap()
+    for (const [path, count] of codeMap.get(code)) {
+      files.push(new CodedFile(code, this.workspace, path, count))
+    }
+    return files
+  }
+
+  async getCodeMap() {
+    if (this.codeMap === null) {
+      this.codeMap = await utils.getCodeMap(this.workspace)
+    }
+    return this.codeMap
   }
 
 }
@@ -42,12 +54,14 @@ class CodeTreeProvider {
 
 class Code extends vscode.TreeItem {
 
-  constructor(label, collapsibleState) {
-    super(label, collapsibleState)
+  constructor(code, numFiles, collapsibleState) {
+    super(`${code} (${numFiles})`, collapsibleState)
+    this.numFiles = numFiles
+    this.code = code
   }
 
   toolTip() {
-    return `${this.label} tip`
+    return `${this.label} (${this.numFiles})`
   }
 
   description() {
@@ -59,16 +73,22 @@ class Code extends vscode.TreeItem {
 
 class CodedFile extends vscode.TreeItem {
 
-  constructor(label, collapsibleState) {
+  constructor(code, workspace, path, count, collapsibleState) {
+    const relPath = path.replace(workspace.rootPath + '/', '')
+    const label = `${relPath} (${count})`
     super(label, collapsibleState)
+    this.code = code
+    this.workspace = workspace
+    this.path = path
+    this.count = count
   }
 
   toolTip() {
-    return `${this.label} ftip`
+    return `${this.label}`
   }
 
   description() {
-    return `${this.label} fdesc`
+    return `${this.label}`
   }
 
 }
