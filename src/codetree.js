@@ -73,22 +73,20 @@ class Code extends vscode.TreeItem {
 
 class CodedFile extends vscode.TreeItem {
 
-  constructor(code, workspace, path, count, collapsibleState) {
+  constructor(code, workspace, path, count) {
     const relPath = path.replace(workspace.rootPath + '/', '')
     const label = `${relPath} (${count})`
-    super(label, collapsibleState)
+    super(label, vscode.TreeItemCollapsibleState.None)
     this.code = code
     this.workspace = workspace
     this.path = path
+    this.relPath = relPath
     this.count = count
-  }
-
-  toolTip() {
-    return `${this.label}`
-  }
-
-  description() {
-    return `${this.label}`
+    this.command = {
+      command: "vscode.open",
+      title: "Open",
+      arguments: [vscode.Uri.file(path)]
+    }
   }
 
 }
