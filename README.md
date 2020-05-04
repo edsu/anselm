@@ -31,7 +31,7 @@ When coding, Anselm will present you with a list of already used codes in your w
 
 You should notice to the left of your VSCode window that there is a pane called "Codes". This tree view shows you the codes that you are using in your workspace with the number of times the code has been used. If you expand the code you will see a list of files in which the code appears followed by the number of times the code is used in that file. Clicking on the file name will open it in VSCode.
 
-<img widht="400" src="https://raw.githubusercontent.com/edsu/anselm/master/images/codes.png">
+<img width="400" src="https://raw.githubusercontent.com/edsu/anselm/master/images/codes.png">
 
 ## TODO
 
