@@ -1,6 +1,7 @@
-<img height="75" src="https://raw.githubusercontent.com/edsu/anselm/master/images/anselm.png">
+<img height="100"
+src="https://raw.githubusercontent.com/edsu/anselm/master/images/anselm.png">
 
-# Anselm
+## Anselm
 
 Anselm is a VSCode plugin that makes it easy to do extremely basic qualitative
 coding on field notes that are stored as Markdown.
