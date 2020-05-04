@@ -1,4 +1,4 @@
-<img height="100"
+<img height="125"
 src="https://raw.githubusercontent.com/edsu/anselm/master/images/anselm.png">
 
 ## Anselm
