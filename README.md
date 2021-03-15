@@ -8,7 +8,7 @@ coding on field notes that are stored as Markdown.
 
 Once you have installed the plugin you can higlight text and run the *Anselm: Code command* which will prompt you to enter a code, and then will surround your highlighted text with a suitable &lt;mark&gt; element. You can run the command with **⌘-P** and then search for **Anselm**, or you can use the supplied keyboard shortcut **⌘-Z ⌘-C** (you can also set your own shortcut if you like).
 
-So for example, assume I have some this bit of text in my fieldnotes:
+So for example, assume I have this bit of text in my fieldnotes:
 
 > Some heavy machinery, bulldozers mostly were also there. To the right was a cement
 > structure with multiple large diagonal entrances. I missed the sign pointed to the
